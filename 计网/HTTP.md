@@ -13,7 +13,7 @@ SSL记录协议(SSL Record Protocol)：它建立在可靠的传输协议(如TCP)
 ### TLS是什么:<br>
     用于两个应用程序之间提供保密性和数据完整性。该协议由两层组成：TLS记录协议和TLS握手协议。<br>
 ## SSL/TLS区别：
-    TLS is actually just a more recent version of SSL
+    Well, 'TLS is actually just a more recent version of SSL'. It fixes some security vulnerabilities in the earlier SSL protocols.
 
 
 参考：
