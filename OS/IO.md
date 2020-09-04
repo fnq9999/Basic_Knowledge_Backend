@@ -20,7 +20,7 @@ epoll_wait采用回调的方式。内核检测到就绪的文件描述符时，�
 
 ## 应用场景<br>
 
-1. select应用场景 select的timeout参数精确到1ns，而poll和epoll为1ms，因此select更加实用与实时性要求更高的场景；<br>
+1. select应用场景 select的timeout参数精确到1us，而poll和epoll为1ms，因此select更加实用与实时性要求更高的场景；<br>
 
 select可移植性更好，几乎被所有主流平台所支持；<br>
 
