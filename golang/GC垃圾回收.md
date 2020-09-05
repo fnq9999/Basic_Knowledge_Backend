@@ -19,5 +19,8 @@
  标记阶段表明所有的存活单元，清扫阶段将垃圾单元回收。可视化可以参考下图。<br>
 ![标记清扫算法](https://upload.wikimedia.org/wikipedia/commons/4/4a/Animation_of_the_Naive_Mark_and_Sweep_Garbage_Collector_Algorithm.gif)
 
+### 优点<br>
+基于追踪的垃圾回收算法具有的优点：避免了引用计数算法的缺点（不能处理循环引用，需要维护指针）<br>
 
-
+### 缺点<br>
+缺点也很明显，需要 STW<br>
