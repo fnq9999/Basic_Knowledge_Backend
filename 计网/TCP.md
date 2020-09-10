@@ -13,8 +13,8 @@ TCP 介绍
     - 会在TCP的首部开销很大
 
 ### 三报文握手<br>
-
-
+<img src="https://raw.githubusercontent.com/fnq9999/Basic_Knowledge_Backend/master/%E8%AE%A1%E7%BD%91/image/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" width="50%" /><br>
+<img src="https://raw.githubusercontent.com/fnq9999/Basic_Knowledge_Backend/master/%E8%AE%A1%E7%BD%91/image/%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B.png" width="50%" /><br>
 
 
 
