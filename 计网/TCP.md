@@ -16,6 +16,15 @@ TCP 介绍
 <img src="https://raw.githubusercontent.com/fnq9999/Basic_Knowledge_Backend/master/%E8%AE%A1%E7%BD%91/image/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" width="50%" /><br>
 <img src="https://raw.githubusercontent.com/fnq9999/Basic_Knowledge_Backend/master/%E8%AE%A1%E7%BD%91/image/%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B.png" width="50%" /><br>
 
+  - close_wait原因
+    - 此时TCP服务器进程通知高层应用进程，A->B方向上连接断开
+    - 若B->A发数据，A仍要接受数据。
+    - 当B都准备好了，向A发送FIN时，该状态结束
+
+  - 最后等待2MSL的时间：
+    - 保证A发送的最后一个ACK到达B
+    - 防止已经失效的连接请求报文段出现在本连接中，保证下一个新的连接中不会出现这种就得连接请求报文段。
+    
 
 
 
