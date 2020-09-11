@@ -46,11 +46,6 @@ TCP 介绍
 <img src="https://raw.githubusercontent.com/fnq9999/Basic_Knowledge_Backend/master/%E8%AE%A1%E7%BD%91/image/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.png" width="50%" /><br>
 
 
-
-
-
-
-
 <img src="https://raw.githubusercontent.com/fnq9999/Basic_Knowledge_Backend/master/%E8%AE%A1%E7%BD%91/image/%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B.png" width="50%" /><br>
 
   - close_wait原因
@@ -76,9 +71,30 @@ TCP 介绍
   - 确认
     - 双方同时通信可采用捎带确认的方式
     - 延迟确认不允许超过0.5s,超长报文应该及时确认
--   - 发送方收到确认之后，调整滑动窗口，再进行发送
+    - 发送方收到确认之后，调整滑动窗口，再进行发送
 - 流量控制
+  - 通过确认报文中的 rwnd来确定。
 
+### TCP 拥塞控制<br>
+  - 概念Reno
+    - 这里控制的窗口的单位其实是字节
+    - 这里每次增大的1个单位原本是 MSS，
+    - 但实际操作中，每次ACK都要增大一点，将原本窗口内都到达后一次增加的，进行拆分。
+    - Increment = MSS x (MSS/CongestionWindow)
+      CongestionWindow += Increment
+  - 慢开始
+    - 乘法增大
+  - 拥塞避免
+    - 加法增大
+  - 快重传
+    - 要求接受放受到报文就立刻确认，乱序的也要进行确认。
+    - 当发送方收到三个重复的确认，立刻重发
+  - 快恢复
+    - ssthresh 变为拥塞发生时的一般，
+    - cwnd变为ssthresh
+- BBR
+
+### TCP 常见面试题<br>
 - TCP常见面试题
   - 为什么三次，为什么四次
   - 三次握手过程中，可以携带数据吗
@@ -91,9 +107,7 @@ TCP 介绍
 但TCP报文是在IP网络上传输，丢包是家常便饭，接收方要抓住一切的机会，把消息告诉发送方。最方便的方式就是，任何我方发送的TCP报文，都要捎带着ACK状态位。
   - ISN定义,ISN随机作用
     - 发送方字节数据编号原点
-    
-    
-   
+  - ACK 状态位能够独立承担消息传递任务
 [车小胖的回答](https://mp.weixin.qq.com/s/S1mv8AE_pQz3uHjRGS7tWg)
 
 
