@@ -1,4 +1,24 @@
 ## HTTP/HTTPS<br>
+
+### 客户端是验证证书过程<br>
+<img src="https://pic3.zhimg.com/80/v2-91a73cf1b4b72978a380fa08fc2fa6dd_720w.jpg"  width="40%"/><br>
+
+- three-way handshake
+- client helo
+  - ssl版本
+  - 加密组间
+    - 加密算法
+    - 秘钥长度
+- server hello
+  - ssl版本
+  - 加密组件(从clienthello报文中得到的)
+
+- Client key exchange
+- send client certificate
+- clinet "finished"
+- server "finished"
+- exchange messages
+
 ### SSL/TLS<br>
 #### SSL是什么:<br>
 &emsp;应用层和网络层之间的一种协议层。SSL通过相互认证数字签名保证完整性、使用加密确保私密性，实现
@@ -14,7 +34,5 @@ SSL记录协议(SSL Record Protocol)：它建立在可靠的传输协议(如TCP)
     用于两个应用程序之间提供保密性和数据完整性。该协议由两层组成：TLS记录协议和TLS握手协议。<br>
 ## SSL/TLS区别：
     Well, 'TLS is actually just a more recent version of SSL'. It fixes some security vulnerabilities in the earlier SSL protocols.
-
-
 参考：
 [SSL与TLS的区别以及介绍](https://www.cnblogs.com/susanhonly/p/7489532.html)
