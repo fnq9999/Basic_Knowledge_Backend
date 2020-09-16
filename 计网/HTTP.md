@@ -12,6 +12,11 @@
 - server hello
   - ssl版本
   - 加密组件(从clienthello报文中得到的)
+-verify server certificate
+  - 抽到数字证书
+  - 使用相同的hash算法得到数字证书的hash值得到'H1'
+  - 使用CA公钥来解密证书中的 certificate signature 得到 H2
+  - 若H2==H1那么信任证书。 [参考](https://www.cnblogs.com/MR-Guo/p/11584730.html)
 
 - Client key exchange
 - send client certificate
