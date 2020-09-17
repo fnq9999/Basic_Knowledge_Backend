@@ -3,7 +3,7 @@
 ### 客户端是验证证书过程<br>
 <img src="https://pic3.zhimg.com/80/v2-91a73cf1b4b72978a380fa08fc2fa6dd_720w.jpg"  width="40%"/><br>
 
-- three-way handshake
+- TCP three-way handshake
 - client helo
   - ssl版本
   - 加密组间
@@ -22,7 +22,7 @@
 - send client certificate
 - clinet "finished"
 - server "finished"
-- exchange messages
+- exchange messages with shared secret key
 
 ### SSL/TLS<br>
 #### SSL是什么:<br>
