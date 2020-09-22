@@ -41,3 +41,13 @@ SSL记录协议(SSL Record Protocol)：它建立在可靠的传输协议(如TCP)
     Well, 'TLS is actually just a more recent version of SSL'. It fixes some security vulnerabilities in the earlier SSL protocols.
 参考：
 [SSL与TLS的区别以及介绍](https://www.cnblogs.com/susanhonly/p/7489532.html)
+
+### RESTFUL API<br>
+- get
+  - 向服务器索取数据（幂等）
+- post
+  - 创建
+- put
+  - 更新（幂等）
+- delete
+  - 幂等
