@@ -24,6 +24,9 @@
 - server "finished"
 - exchange messages with shared secret key
 
+### HTTPS 的安全性/HSTS<br>
+
+
 ### cookie 和 session<br>
 - 减轻服务器的压力应当使用cookie
 
