@@ -17,8 +17,8 @@
       - 数据从内核空间拷贝到用户空间
       - 释放内核空间，和poll等待队列
 
-[Brief introduction of poll/epoll usage](https://www.programmersought.com/article/72415747853/)
-[Linux driver explanation (3): explanation of poll mechanism](https://www.programmersought.com/article/21054095639/)
-[Linux内核：poll机制](https://blog.csdn.net/jansonzhe/article/details/48576025)
+[Brief introduction of poll/epoll usage](https://www.programmersought.com/article/72415747853/)<br>
+[Linux driver explanation (3): explanation of poll mechanism](https://www.programmersought.com/article/21054095639/)<br>
+[Linux内核：poll机制](https://blog.csdn.net/jansonzhe/article/details/48576025)<br>
 
 ### epoll<br>
