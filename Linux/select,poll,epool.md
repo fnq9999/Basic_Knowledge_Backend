@@ -31,8 +31,9 @@
     - 调用该监听文件的poll接口  
       - 例如：tcp_poll
         - poll_wait
-          - ep_ptable_queue_proc(),将当前epitem对象加到，socket的等待队列上，并设置ep_poll_callback,当socket状态改变时,出发callback
-            - 将就绪的文件添加到eventpoll对象的就绪队列当中，唤醒在epoll_wait的进程
+          - ep_ptable_queue_proc(),将当前epitem对象加到socket的等待队列上，并设置ep_poll_callback,当socket状态改变时,出发callback
+            - 若有状态改变，将就绪的文件添加到eventpoll对象的就绪队列当中，唤醒在epoll_wait的进程
+              - 状态改变是通过内核的中断处理函数知道的，来自网卡的硬件中断，及后续的软中断
     - 如果已经ready,就添加到就绪队列当中
     - 唤醒调用epoll_wait的进程，唤醒调用file->poll的进程
 - epoll_wait
