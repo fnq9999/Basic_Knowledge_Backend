@@ -43,7 +43,19 @@
         - 有就绪，超时，信号，就停止睡眠
       - 有就绪事件ep_send_events()把就绪事件复制到events参数当中     
 - LT,ET,EPOLLONESHOT
-
+  - epoll_wait()
+    - ep_poll()
+      -  ep_send_events()
+        - ep_scan_ready_list()
+          - 将epollevent对象的所有就绪对象都链接到txlist上，rdllist清空
+          - ep_send_events_proc()
+            - 扫描整个链表
+            - 对事件再次做poll()，虽然已经在callback的时候已经poll过，是为了得到最新的数据，并且有的驱动程序没有把events返回，
+            - 如果revents有，放入用户空间
+              - 如果EPOLLONESHOT,那么对epi->event.events &= EP_PRIVATE_BITS;
+              - 如果ET,不放入ep的rdllist
+              - LT,放入rdllist.
+            - 返回放入用户空间的数量
 
 
 
