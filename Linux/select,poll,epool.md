@@ -22,10 +22,28 @@
 [Linux内核：poll机制](https://blog.csdn.net/jansonzhe/article/details/48576025)<br>
 
 ### epoll<br>
-
-
-
+- epoll_create(int size)
+  - eventpoll
+  - epitem
+- epoll_ctl(int size)
+  - ep_insert
+    - 申请epitem对象，并初始化
+    - 调用该监听文件的poll接口  
+      - 例如：tcp_poll
+        - poll_wait
+          - ep_ptable_queue_proc(),将当前epitem对象加到，socket的等待队列上，并设置ep_poll_callback,当socket状态改变时,出发callback
+            - 将就绪的文件添加到eventpoll对象的就绪队列当中，唤醒在epoll_wait的进程
+    - 如果已经ready,就添加到就绪队列当中
+    - 唤醒调用epoll_wait的进程，唤醒调用file->poll的进程
+- epoll_wait
+  - sys_epoll_wait
+    - ep_poll
+      - 如果没有就绪的事件，就将当前进程添加到epoll的等待队列，并睡眠
+        - 有就绪，超时，信号，就停止睡眠
+      - 有就绪事件ep_send_events()把就绪事件复制到events参数当中
 ![](https://mmbiz.qpic.cn/mmbiz_jpg/ciab8jTiab9J7oou7m3TsR2NhOrHnNFqibIGW2VzT7Pqf5VIibN3QWj44htzkrvOfnTcJlzicg2Y3Hq220XSVEa3ibjg/640?wx_fmt=jpeg)<br>
+
+
 [epoll内核源码详解+自己总结的流程 ](https://www.nowcoder.com/discuss/26226)<br>
 [Epoll 如何工作的?](https://www.ershicimi.com/p/6754e4da3554da74821f8fd4a3a5bbb9)
 [源码解读epoll内核机制](http://gityuan.com/2019/01/06/linux-epoll/)
