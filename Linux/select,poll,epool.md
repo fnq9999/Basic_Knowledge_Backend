@@ -45,6 +45,8 @@
 ![](https://mmbiz.qpic.cn/mmbiz_jpg/ciab8jTiab9J7oou7m3TsR2NhOrHnNFqibIGW2VzT7Pqf5VIibN3QWj44htzkrvOfnTcJlzicg2Y3Hq220XSVEa3ibjg/640?wx_fmt=jpeg)<br>
 
 
+
 [epoll内核源码详解+自己总结的流程 ](https://www.nowcoder.com/discuss/26226)<br>
 [Epoll 如何工作的?](https://www.ershicimi.com/p/6754e4da3554da74821f8fd4a3a5bbb9)<br>
+[epoll 的本质是什么？](https://my.oschina.net/editorial-story/blog/3052308)<br>
 [源码解读epoll内核机制](http://gityuan.com/2019/01/06/linux-epoll/)
