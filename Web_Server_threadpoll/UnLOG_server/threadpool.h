@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <exception>
 #include <pthread.h>
-#include "./lock/locker.h"
+#include "locker.h"
 
 template< typename T >
 class threadpool
@@ -30,7 +30,7 @@ private:
 };
 
 template< typename T >
-threadpool< T >::threadpool( int thread_number, int max_requests ) :
+threadpool< T >::threadpool( int thread_number, int max_requests ) : 
         m_thread_number( thread_number ), m_max_requests( max_requests ), m_stop( false ), m_threads( NULL )
 {
     if( ( thread_number <= 0 ) || ( max_requests <= 0 ) )
@@ -53,7 +53,7 @@ threadpool< T >::threadpool( int thread_number, int max_requests ) :
             throw std::exception();
         }
         if( pthread_detach( m_threads[i] ) )
-        {/// 脱离线程。
+        {
             delete [] m_threads;
             throw std::exception();
         }
@@ -70,7 +70,7 @@ threadpool< T >::~threadpool()
 template< typename T >
 bool threadpool< T >::append( T* request )
 {
-    m_queuelocker.lock();// lock the m_workqueue
+    m_queuelocker.lock();
     if ( m_workqueue.size() > m_max_requests )
     {
         m_queuelocker.unlock();
@@ -78,7 +78,7 @@ bool threadpool< T >::append( T* request )
     }
     m_workqueue.push_back( request );
     m_queuelocker.unlock();
-    m_queuestat.post();//  post the signal: a task is pushed_back in to the list
+    m_queuestat.post();
     return true;
 }
 

@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <exception>
 #include <pthread.h>
-#include "./lock/locker.h"
+#include "locker.h"
 
 template< typename T >
 class threadpool
@@ -22,6 +22,7 @@ private:
 private:
     int m_thread_number;
     int m_max_requests;
+    cond m_cond;
     pthread_t* m_threads;
     std::list< T* > m_workqueue;
     locker m_queuelocker;
@@ -53,7 +54,7 @@ threadpool< T >::threadpool( int thread_number, int max_requests ) :
             throw std::exception();
         }
         if( pthread_detach( m_threads[i] ) )
-        {/// 脱离线程。
+        {
             delete [] m_threads;
             throw std::exception();
         }
@@ -70,15 +71,17 @@ threadpool< T >::~threadpool()
 template< typename T >
 bool threadpool< T >::append( T* request )
 {
-    m_queuelocker.lock();// lock the m_workqueue
+    m_queuelocker.lock();
     if ( m_workqueue.size() > m_max_requests )
     {
+        m_cond.broadcast();
         m_queuelocker.unlock();
         return false;
     }
     m_workqueue.push_back( request );
+    m_cond.signal();
     m_queuelocker.unlock();
-    m_queuestat.post();//  post the signal: a task is pushed_back in to the list
+
     return true;
 }
 
@@ -95,12 +98,14 @@ void threadpool< T >::run()
 {
     while ( ! m_stop )
     {
-        m_queuestat.wait();
         m_queuelocker.lock();
-        if ( m_workqueue.empty() )
-        {
-            m_queuelocker.unlock();
-            continue;
+        while(m_workqueue.empty()){
+            if(!m_cond.wait(m_queuelocker.get())){
+
+                //m_queuelocker.unlock();
+                continue;
+                //break;
+            }
         }
         T* request = m_workqueue.front();
         m_workqueue.pop_front();
