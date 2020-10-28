@@ -53,7 +53,7 @@ threadpool< T >::threadpool( int thread_number, int max_requests ) :
             throw std::exception();
         }
         if( pthread_detach( m_threads[i] ) )
-        {
+        {/// Õ—¿Îœﬂ≥Ã
             delete [] m_threads;
             throw std::exception();
         }
