@@ -1,5 +1,4 @@
 
-
 ### STL基本组件
 - 六大组件
     - 容器：容纳一组元素的对象。
@@ -44,7 +43,12 @@
     - bucket
         - resize
             - 若resize的大小大于当前大小就rehash
-            - __stl_next_prime:二分查找下一个不小于x的质数
+                - 新建vector<Node*,A>tmp(new_size(),(Node*)0);
+                - 对于原来buckets中的所有i,将原来bucket[i]中的链表的每一项重新计算hash值new_bucket_n分别放到各自的tmp[new_bucket_n]中
+                    - 那条链表上的元素会分家就是了
+                - 最终buckets.swap(tmp)
+            - __stl_next_prime:二分查找下一个不小于x的质数    
+                - 首先来说假如关键字是随机分布的，那么无所谓一定要模质数。但在实际中往往关键字有某种规律，例如大量的等差数列，那么公差和模数不互质的时候发生碰撞的概率会变大，而用质数就可以很大程度上回避这个问题。
         - insert_unique
             - 先resize
             - insert_unique_noresize
@@ -59,5 +63,14 @@
     - unordered_map and unordered_set
         - 占用内存比map高
  
-            
+### 红黑树
+#### 介绍
+&emsp;&emsp;红黑树是二叉查找树，每个节点要么红要么黑。它确保没有一条路径会比其他路径长两倍。红黑树是一种弱平衡树，相对于要求严格的AVL树，旋转次数少。
+
+
+
+
+
+
+
  
