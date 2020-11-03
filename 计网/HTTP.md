@@ -93,8 +93,23 @@
 
 - exchange messages with shared secret key
 
-### HTTPS 的安全性/HSTS<br>
+### 再详细的HTTPS呢
+&emsp;&emsp;客户端得到证书并且验证成功之后，生成一个pre_master_key ,它将用来跟服务端和客户端在Hello阶段产生的随机数结合在一起生成 Master Secret 。在客户端使用服务端的公钥对PreMaster Secret进行加密之后传送给服务端，服务端将使用私钥进行解密得到PreMaster secret。也就是说服务端和客户端都有一份相同的PreMaster secret和随机数。PreMaster secret前两个字节是TLS的版本号，这是一个比较重要的用来核对握手数据的版本号，因为在Client Hello阶段，客户端会发送一份加密套件列表和当前支持的SSL/TLS的版本号给服务端，而且是使用明文传送的，如果握手的数据包被破解之后，攻击者很有可能串改数据包，选择一个安全性较低的加密套件和版本给服务端，从而对数据进行破解。所以，服务端需要对密文中解密出来对的PreMaster版本号跟之前Client Hello阶段的版本号进行对比，如果版本号变低，则说明被串改，则立即停止发送任何消息。<br>
+&emsp;&emsp;Master secret<br>
+&emsp;&emsp;上面已经提到，由于服务端和客户端都有一份相同的PreMaster secret和随机数，这个随机数将作为后面产生Master secret的种子，结合PreMaster secret，客户端和服务端将计算出同样的Master secret。<br>
+&emsp;&emsp;Master secret是有系列的hash值组成的，它将作为数据加解密相关的secret的 Key Material 的一部分。Key Material最终解析出来的数据如下：<br>
+       
+<img src="https://pic3.zhimg.com/80/v2-65dcd5a595c7c03160ef74c79f470c5a_720w.jpg"  width="20%"/><br>
 
+    在所有的握手阶段都完成之后，就可以开始传送应用数据了。应用数据在传输之前，首先要附加上MAC secret，然后再对这个数据包使用write encryption key进行加密。在服务端收到密文之后，使用Client write encryption key进行解密，客户端收到服务端的数据之后使
+    用Server write encryption key进行解密，然后使用各自的write MAC key对数据的完整性包括是否被串改进行验证。
+
+### 在HTTPS基础上客户端每次请求都需要SSL握手传递秘钥吗
+        浏览器可以以sessionID为单位临时存储用来加密的key等关键参数
+        在*TLS握手阶段*浏览器会把自己的session id发给服务器，若服务器中存在一个以sessionId为索引的数据结构的话，那么检查里面
+        是否有 session key,有的话就不需要交换秘钥了，这样避免了大量的幂、指数运算，如果没有的话正常走最开始的流程
+
+### HTTPS 的安全性/HSTS<br>
 
 ### SSL/TLS<br>
 #### SSL是什么:<br>
@@ -109,8 +124,13 @@ SSL记录协议(SSL Record Protocol)：它建立在可靠的传输协议(如TCP)
 
 ### TLS是什么:<br>
     用于两个应用程序之间提供保密性和数据完整性。该协议由两层组成：TLS记录协议和TLS握手协议。<br>
+
+
 ## SSL/TLS区别：
     Well, 'TLS is actually just a more recent version of SSL'. It fixes some security vulnerabilities in the earlier SSL protocols.
+    
+    
+
 参考：
 [SSL与TLS的区别以及介绍](https://www.cnblogs.com/susanhonly/p/7489532.html)
 

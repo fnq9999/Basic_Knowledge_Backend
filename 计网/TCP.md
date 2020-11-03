@@ -82,6 +82,43 @@ TCP and UDP 介绍
     - 若接受方修改零窗口的报文丢失了，会出现死锁
     - 发送方在接受到零窗口时，开启一个持续定时器，
     - 时间到了发送零窗口探测报文。
+- 粘包和拆包
+    - 粘包
+        - 简言之就是 调用一次recv的，收到了对方两次独立send的数据（其实是归应用层管理的事情)
+        - 应用程序写入数据小于套接字缓冲区大小，网卡将应用多次写入的数据发送到网络上，这将会发生粘包。
+        - 接收方法不及时读取套接字缓冲区数据，这将发生粘包。
+        
+    - 拆包
+        - 应用程序写入的数据大于套接字缓冲区大小，这将会发生拆包。
+        - 进行 MSS （最大报文长度）大小的 TCP 分段，当 TCP 报文长度-TCP 头部长度>MSS 的时候将发生拆包。
+    - 解决方案
+        - 做好消息块的标识和消息块的分隔符，即使字节流让包粘在一起，数据的接受放依然可以根据消息块的分隔符将信息分离出来
+      ```c++
+        char tmp[];
+        Buffer buffer;
+        // 网络循环：必须在一个循环中读取网络，因为网络数据是源源不断的。
+        while(1){
+            // 从TCP流中读取不定长度的一段流数据，不能保证读到的数据是你期望的长度
+            tcp.read(tmp);
+            // 将这段流数据和之前收到的流数据拼接到一起
+            buffer.append(tmp);
+            // 解析循环：必须在一个循环中解析报文，应对所谓的粘包
+            while(1){
+                // 尝试解析报文
+                msg = parse(buffer);
+                if(!msg){
+                    // 报文还没有准备好，糟糕，我们遇到拆包了！跳出解析循环，继续读网络。
+                    break;
+                }
+                // 将解析过的报文对应的流数据清除
+                buffer.remove(msg.length);
+                // 业务处理
+                process(msg);
+            }
+        }
+        ```
+    
+
 
 ### TCP 拥塞控制<br>
 - Reno
@@ -124,8 +161,21 @@ TCP and UDP 介绍
     - 保证让迟来的TCP报文段有足够的的时间被识别的丢弃
     - 有时还希望避免TIME_WAIT状态，因为在TIME_WAIT状态该端口就不能立马进入到新的连接状态中，这时我们可以设置sock选项，复用addr来强制进程立即使用处于TIME_WAIT状态的连接端口。
   - SYN洪水攻击原理
-    - 客户端发送一个SYN之后就不管了，服务器需要等待63sec才放弃该连接
+    - 客户端发送一个SYN之后就不管了，服务器需要等待63sec才放弃该连接(消耗服务器资源)
     - 解决办法：syn_cookie
+        - Filtering
+        
+        - 内核参数优化
+            - Increasing backlog（tcp_max_syn_backlog）
+            - Reducing SYN-RECEIVED timer or tcp_synack_retries 
+            - SYN cookies
+            - 限制syn并发数
+        - Recycling the oldest half-open TCP
+        - SYN cache
+        - Hybrid approaches
+        - Firewalls and proxies
+        
+        
   - RFC793明确规定，除了第一个握手报文SYN除外，其它所有报文必须将ACK = 1，RFC规定的背后肯定有合理性的一面，能否深究一下原因？
     - TCP作为一个可靠传输协议，其可靠性就是依赖于收到对方的数据，ACK对方，这样对方就可以释放缓存的数据，因为对方确信数据已经被接收到了。
   - 大量CLOSE_WAIT的原因
