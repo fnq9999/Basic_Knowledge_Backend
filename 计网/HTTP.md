@@ -46,17 +46,18 @@
 
 
 ## HTTPS<br>
-[Wireshark抓包帮你理清HTTPS请求流程_非常全面！！！](https://cloud.tencent.com/developer/article/1644729)
-[HTTPS 为什么更安全，先看这些_讲得来由很清楚](https://zhuanlan.zhihu.com/p/25324735)
+[Wireshark抓包帮你理清HTTPS请求流程_非常全面！！！](https://cloud.tencent.com/developer/article/1644729)<br>
+[HTTPS 为什么更安全，先看这些_讲得来由很清楚](https://zhuanlan.zhihu.com/p/25324735)<br>
+[使用wireshark分析HTTPS流程的建立](https://my.oschina.net/u/2457218/blog/794322)<br>
 ### HTTP为什么安全<br>
-#### 1.应该使用对称加密传输数据，那么如何获取对称加密的秘钥
-#### 2.使用非对称加密得到用于对称加密的秘钥，那么如何得到非对称加密的公钥
-#### 3.使用得到CA认可的公钥，那么去和确保这个确实是CA是真的CA
-#### 4.使用数字签名技术
+#### 1.应该使用对称加密传输数据，那么如何获取对称加密的秘钥<br>
+#### 2.使用非对称加密得到用于对称加密的秘钥，那么如何得到非对称加密的公钥<br>
+#### 3.使用得到CA认可的公钥，那么去和确保这个确实是CA是真的CA<br>
+#### 4.使用数字签名技术<br>
 - 签字者发送
     - 数据
     - 加密（hash(数据)）
-- 验证放
+- 验证方
     - 对数据进行hash->h1
     - 对加密后的数据进行解密->h2
     - 如果h1==h2验证成功
