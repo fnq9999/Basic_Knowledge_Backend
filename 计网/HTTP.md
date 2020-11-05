@@ -101,8 +101,7 @@
        
 <img src="https://pic3.zhimg.com/80/v2-65dcd5a595c7c03160ef74c79f470c5a_720w.jpg"  width="20%"/><br>
 
-   &emsp;&emsp;在所有的握手阶段都完成之后，就可以开始传送应用数据了。应用数据在传输之前，首先要附加上MAC secret，然后再对这个数据包使用write encryption key进行加密。在服务端收到密文之后，使用Client write encryption key进行解密，客户端收到服务端的数据之后使<br>
-    &emsp;&emsp;用Server write encryption key进行解密，然后使用各自的write MAC key对数据的完整性包括是否被串改进行验证。<br>
+   &emsp;&emsp;在所有的握手阶段都完成之后，就可以开始传送应用数据了。应用数据在传输之前，首先要附加上MAC secret，然后再对这个数据包使用write encryption key进行加密。在服务端收到密文之后，使用Client write encryption key进行解密，客户端收到服务端的数据之后使用Server write encryption key进行解密，然后使用各自的write MAC key对数据的完整性包括是否被串改进行验证。<br>
 
 ### 在HTTPS基础上客户端每次请求都需要SSL握手传递秘钥吗
         浏览器可以以sessionID为单位临时存储用来加密的key等关键参数
