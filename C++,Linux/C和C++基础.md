@@ -1,9 +1,11 @@
 
 ### C++和C的区别
+- 是两门不同的语言
 - C++面向对象，C面向过程的结构化编程语言
 - C++具有封装继承多态
 - C++相比C，增加许多类型安全的功能，比如强制类型转换
 - C++支持范式编程、比如模板类、函数模板。
+- new/delete 对比 malloc free
 
 ### struct 的size of大小<br>
 - 结构体首地址与最宽类型对其
@@ -62,7 +64,7 @@
     - 指向const的引用 const int &b=2*3;（可以是右值）
     
 - 修饰成员函数，说明该成员函数内不能修改成员变量。
-    - 声明为const的成员函数才能被const成员所调用
+    - const成员只能调用const成员函数
     - const成员保证成员变量不被改变但是，不保证指针所指向的内容不被改变
     - const成员函数可以访问不管const还是非const对象的不管const还是非const的成员变量，非const函数只能访问非const对象的非const成员和const成员
     [C++的const类成员函数](https://blog.csdn.net/lihao21/article/details/8634876)<br>
@@ -347,4 +349,33 @@ int main(){
     - 系统内存泄露
     
     
-    
+### C语言中的volatile
+&emsp;A volatile specifier is a hint to a compiler that an object may change its value in ways not specified by the language so that aggressive optimizations must be avoided.<br>
+- volatile 关键字是一种类型修饰符，用它声明的类型变量表示可以被某些编译器未知的因素更改，比如：操作系统、硬件或者其它线程等。遇到这个关键字声明的变量，编译器对访问该变量的代码就不再进行优化，从而可以提供对特殊地址的稳定访问。声明时语法：int volatile vInt; 当要求使用 volatile 声明的变量的值的时候，系统总是重新从它所在的内存读取数据，即使它前面的指令刚刚从该处读取过数据。而且读取的数据立刻被保存
+参考：[C/C++ 中 volatile 关键字详解](https://www.runoob.com/w3cnote/c-volatile-keyword.html)
+- volatile对象只能调用volatile成员函数类似于const修饰符
+
+### 什么时候产生coredump
+参考：APUE<br>
+产生coredump条件：一般系统处理信号的默认动作终止+core<br>
+
+- SIGABRT：异常终止
+- SIGBUS：硬件故障
+- SIGEMT：硬件故障
+- SIGFPE：算术异常
+- SIGINFO：键盘状态请求
+- SIGJVM1：Java虚拟机内部使用
+- SIGQUIT：终端退出符
+- SIGSEGV：无效内存引用
+- SIGSTKFLT：协处理器栈故障？
+- SIGSYS：无效系统调用
+- SIGTRAP：硬件故障
+- SIGXCPU： 超过CPU限制
+- SIGXFZ:超过文件长度限制
+
+- 1.内存访问越界
+- 2.多线程使用线程不安全函数
+- 3.非法指针
+    - 1.空指针
+    - 2.野指针
+- 4.栈溢出
