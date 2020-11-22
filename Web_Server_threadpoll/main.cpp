@@ -27,46 +27,42 @@ static locker conn_lock;
 
 //int addfd( int epollfd, int fd, bool one_shot );
 //int removefd( int epollfd, int fd );
-void sig_handler(int sig){///
+void sig_handler(int sig) { ///
     int save_errno=errno;
     int msg=sig;
     send(pipefd[1],(char*)&msg,1,0);
     errno =save_errno;
 }
-void timer_handler(){
+void timer_handler() {
     timer_lst.tick();
     alarm(TIMESLOT);
 }
-void cb_func(client_data* user_data){
+void cb_func(client_data* user_data) {
     //printf("cu_func\n");
     epoll_ctl(epollfd,EPOLL_CTL_DEL,user_data->sockfd,0);
     assert(user_data);
     close(user_data->sockfd);
     http_conn::m_user_count--;
 }
-void addsig( int sig, void( handler )(int), bool restart = true )
-{
+void addsig( int sig, void( handler )(int), bool restart = true ) {
     struct sigaction sa;
     memset( &sa, '\0', sizeof( sa ) );
     sa.sa_handler = handler;
-    if( restart )
-    {
+    if( restart ) {
         sa.sa_flags |= SA_RESTART;
     }
     sigfillset( &sa.sa_mask );
     assert( sigaction( sig, &sa, NULL ) != -1 );
 }
 
-void show_error( int connfd, const char* info )
-{
+void show_error( int connfd, const char* info ) {
     printf( "%s", info );
     send( connfd, info, strlen( info ), 0 );
     close( connfd );
 }
 
 
-int main( int argc, char* argv[] )
-{
+int main( int argc, char* argv[] ) {
 
 
 #ifdef ASYNLOG
@@ -79,8 +75,7 @@ int main( int argc, char* argv[] )
 
 
 
-    if( argc <= 2 )
-    {
+    if( argc <= 2 ) {
         printf( "usage: %s ip_address port_number\n", basename( argv[0] ) );
         return 1;
     }
@@ -89,12 +84,9 @@ int main( int argc, char* argv[] )
     addsig( SIGPIPE, SIG_IGN );
     beian_len=strlen(beian_str);
     threadpool< http_conn >* pool = NULL;
-    try
-    {
+    try {
         pool = new threadpool< http_conn >;
-    }
-    catch( ... )
-    {
+    } catch( ... ) {
         return 1;
     }
 
@@ -144,39 +136,33 @@ int main( int argc, char* argv[] )
     bool timeout=false;
     alarm(TIMESLOT);
 
-    while( !stop_server)
-    {
+    while( !stop_server) {
         //printf("1-----------------------\n");
         int number = epoll_wait( epollfd, events, MAX_EVENT_NUMBER, -1 );
         //printf("2-----------------------\n");
-        if ( ( number < 0 ) && ( errno != EINTR ) )
-        {
+        if ( ( number < 0 ) && ( errno != EINTR ) ) {
             LOG_ERROR("%s", "epoll failure");
             //printf( "epoll failure\n" );
             break;
         }
 
-        for ( int i = 0; i < number; i++ )
-        {
+        for ( int i = 0; i < number; i++ ) {
             //printf("3-----------------------\n");
             int sockfd = events[i].data.fd;
 
-            if( sockfd == listenfd )
-            {
+            if( sockfd == listenfd ) {
                 //printf("4-----------------------\n");
                 struct sockaddr_in client_address;
                 socklen_t client_addrlength = sizeof( client_address );
                 int connfd;
-                while(connfd=accept( listenfd, ( struct sockaddr* )&client_address, &client_addrlength )){
-                        //printf("5-----------------------\n");
-                    if ( connfd < 0 )
-                    {
+                while(connfd=accept( listenfd, ( struct sockaddr* )&client_address, &client_addrlength )) {
+                    //printf("5-----------------------\n");
+                    if ( connfd < 0 ) {
                         //printf( "errno is: %d\n", errno );
-                         LOG_ERROR("%s:errno is:%d", "accept error", errno);
+                        LOG_ERROR("%s:errno is:%d", "accept error", errno);
                         break;
                     }
-                    if( http_conn::m_user_count >= MAX_FD )
-                    {
+                    if( http_conn::m_user_count >= MAX_FD ) {
                         show_error( connfd, "Internal server busy" );
                         //printf("server_busy\n");
                         LOG_ERROR("%s", "Internal server busy");
@@ -222,64 +208,57 @@ int main( int argc, char* argv[] )
 //                    timer->expire=cur+3*TIMESLOT;
 //                    users_timer[connfd].timer=timer;
 //                    timer_lst.add_timer(timer);
-            }
-            else if( events[i].events & (EPOLLRDHUP|EPOLLHUP|EPOLLERR) )
-            {
+            } else if( events[i].events & (EPOLLRDHUP|EPOLLHUP|EPOLLERR) ) {
                 //printf("6-----------------------\n");
                 //users[sockfd].close_conn();
                 util_timer* timer=users_timer[sockfd].timer;
                 timer->cb_func(&users_timer[sockfd]);
-                if(timer){
+                if(timer) {
                     timer_lst.del_timer(timer);
                 }
-            }
-            else if ((sockfd==pipefd[0])&&(events[i].events&EPOLLIN)){
-                    //printf("7-----------------------\n");
+            } else if ((sockfd==pipefd[0])&&(events[i].events&EPOLLIN)) {
+                //printf("7-----------------------\n");
                 int sig;
                 char signals[1024];
                 ret=recv(pipefd[0],signals,sizeof(signals),0);
-                if(ret==-1){
+                if(ret==-1) {
                     continue;
-                }else if(ret==0){
+                } else if(ret==0) {
                     continue;
-                }
-                else{
-                    for(int i=0;i<ret;++i){
-                        switch(signals[i]){
-                            case SIGALRM:{
-                                timeout=1;
-                                break;
-                            }
-                            case SIGTERM:{
-                                stop_server=true;
-                            }
+                } else {
+                    for(int i=0; i<ret; ++i) {
+                        switch(signals[i]) {
+                        case SIGALRM: {
+                            timeout=1;
+                            break;
+                        }
+                        case SIGTERM: {
+                            stop_server=true;
+                        }
                         }
                     }
                 }
-            }
-            else if( events[i].events & EPOLLIN )
-            {
+            } else if( events[i].events & EPOLLIN ) {
                 //printf("8-----------------------\n");
 
 
 
                 util_timer* timer=users_timer[sockfd].timer;
-                if(users[sockfd].read()){
+                if(users[sockfd].read()) {
                     LOG_INFO("deal with the client(%s)", inet_ntoa(users[sockfd].get_address()->sin_addr));
                     Log::get_instance()->flush();
                     pool->append( users + sockfd );
-                    if(timer){
+                    if(timer) {
                         time_t cur=time(NULL);
                         timer->expire=cur+3*TIMESLOT;
                         LOG_INFO("%s", "adjust timer once");
                         Log::get_instance()->flush();
                         timer_lst.adjust_timer(timer);
                     }
-                }
-                else{
+                } else {
                     //printf("????\n");
                     timer->cb_func(&users_timer[sockfd]);
-                    if(timer){
+                    if(timer) {
                         timer_lst.del_timer(timer);
                     }
                 }
@@ -292,24 +271,22 @@ int main( int argc, char* argv[] )
 //                    printf("read_fail\n");
 //                    users[sockfd].close_conn();
 //                }
-            }
-            else if( events[i].events & EPOLLOUT )
-            {
+            } else if( events[i].events & EPOLLOUT ) {
                 //printf("9-----------------------\n");
                 util_timer* timer=users_timer[sockfd].timer;
-                if(users[sockfd].write()){
+                if(users[sockfd].write()) {
                     LOG_INFO("send data to the client(%s)", inet_ntoa(users[sockfd].get_address()->sin_addr));
                     Log::get_instance()->flush();
-                    if(timer){
+                    if(timer) {
                         time_t cur=time(NULL);
                         timer->expire=cur+3*TIMESLOT;
                         LOG_INFO("%s", "adjust timer once");
                         Log::get_instance()->flush();
                         timer_lst.adjust_timer(timer);
                     }
-                }else{
+                } else {
                     timer->cb_func(&users_timer[sockfd]);
-                    if(timer){
+                    if(timer) {
                         timer_lst.del_timer(timer);
                     }
                 }
@@ -326,7 +303,7 @@ int main( int argc, char* argv[] )
 //                //modfd()
 //            }
         }
-        if(timeout){
+        if(timeout) {
             timer_handler();
             timeout=false;
         }
