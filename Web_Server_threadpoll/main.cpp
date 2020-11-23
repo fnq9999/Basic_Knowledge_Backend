@@ -241,8 +241,6 @@ int main( int argc, char* argv[] ) {
             } else if( events[i].events & EPOLLIN ) {
                 //printf("8-----------------------\n");
 
-
-
                 util_timer* timer=users_timer[sockfd].timer;
                 if(users[sockfd].read()) {
                     LOG_INFO("deal with the client(%s)", inet_ntoa(users[sockfd].get_address()->sin_addr));
