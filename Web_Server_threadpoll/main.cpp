@@ -15,15 +15,15 @@
 #include "http_conn.cpp"
 #include "./log/log.h"
 #define MAX_FD 65536
-#define MAX_EVENT_NUMBER 10000
+#define MAX_EVENT_NUMBER 40000
 #define TIMESLOT 5
 static int pipefd[2];
 static sort_timer_lst timer_lst;
 static int epollfd=0;
 static locker conn_lock;
 
-//#define SYNLOG  //同步写日志
-#define ASYNLOG //异步写日志
+//#define SYNLOG  //同锟斤拷写锟斤拷志
+#define ASYNLOG //锟届步写锟斤拷志
 
 //int addfd( int epollfd, int fd, bool one_shot );
 //int removefd( int epollfd, int fd );
@@ -66,11 +66,11 @@ int main( int argc, char* argv[] ) {
 
 
 #ifdef ASYNLOG
-    Log::get_instance()->init("ServerLog", 2000, 800000, 8); //异步日志模型
+    Log::get_instance()->init("ServerLog", 2000, 800000, 8); //锟届步锟斤拷志模锟斤拷
 #endif
 
 #ifdef SYNLOG
-    Log::get_instance()->init("ServerLog", 2000, 800000, 0); //同步日志模型
+    Log::get_instance()->init("ServerLog", 2000, 800000, 0); //同锟斤拷锟斤拷志模锟斤拷
 #endif
 
 

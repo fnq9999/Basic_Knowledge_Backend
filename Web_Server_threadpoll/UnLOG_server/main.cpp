@@ -1,4 +1,4 @@
-#include <sys/socket.h>
+﻿#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <stdio.h>
@@ -15,7 +15,7 @@
 #include "http_conn.cpp"
 
 #define MAX_FD 65536
-#define MAX_EVENT_NUMBER 10000
+#define MAX_EVENT_NUMBER 40000
 #define TIMESLOT 5
 static int pipefd[2];
 static sort_timer_lst timer_lst;

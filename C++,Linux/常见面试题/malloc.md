@@ -15,7 +15,7 @@ ptmalloc
 - 到top chunk当中查找
 - top chunk也不行，就增大top chunk
     - 在主分配区，就sbrk()增大topchunk
-    - 非主分配区，使用,,ap分配一个sub-heap，增大top chunk大小
+    - 非主分配区，使用mmap分配一个sub-heap，增大top chunk大小
 - 大于等于mmap分配阈值，则直接mmap
 ### 
 
