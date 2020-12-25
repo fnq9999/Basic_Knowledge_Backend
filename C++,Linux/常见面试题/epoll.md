@@ -52,8 +52,19 @@
 - epoll 惊群问题
     - 在2.6.18内核中accept的惊群问题已经被解决了，但是在epoll中仍然存在惊群问题，表现起来就是当多个进程/线程调用epoll_wait时会阻塞等待，当内核触发可读写事件，所有进程/线程都会进行响应，但是实际上只有一个进程/线程真实处理这些事件。
     - 在epoll官方没有正式修复这个问题之前，Nginx作为知名使用者采用全局锁来限制每次可监听fd的进程数量，每次只有1个可监听的进程，后来在Linux 3.9内核中增加了SO_REUSEPORT选项实现了内核级的负载均衡，Nginx1.9.1版本支持了reuseport这个新特性，从而解决惊群问题。
-    - EPOLLEXCLUSIVE是在2016年Linux 4.5内核新添加的一个 epoll 的标识，Ngnix 在 1.11.3 之后添加了NGX_EXCLUSIVE_EVENT选项对该特性进行支持。EPOLLEXCLUSIVE标识会保证一个事件发生时候只有一个线程会被唤醒，以避免多侦听下的惊群问题。
+        - 参考:[Linux 最新SO_REUSEPORT特性](https://www.cnblogs.com/anker/p/7076537.html)
+        - so_reuseport支持多个进程或者线程绑定到同一个端口。
+            - 允许多个套接字bind()/listen同一个TCP/UDP端口，每个线程都拥有了服务器套接字，并且没有锁的竞争
+            - 内核层面上负载均衡
+            - 安全层面，监听同一个端口的套接字只能位于同一个用户下面
+        - 实现方法
+            - 扩展socket option 增加 该选项
+            - 修改bind系统调用，以便可以绑定到相同的IP和端口
+            - 修改处理新建连接的实现，查找listener的时候，能够支持在监听相同IP和端口的多个sock之间负载均衡
+            
         
+    - EPOLLEXCLUSIVE是在2016年Linux 4.5内核新添加的一个 epoll 的标识，Ngnix 在 1.11.3 之后添加了NGX_EXCLUSIVE_EVENT选项对该特性进行支持。EPOLLEXCLUSIVE标识会保证一个事件发生时候只有一个线程会被唤醒，以避免多侦听下的惊群问题。
+         
     
 ![](https://mmbiz.qpic.cn/mmbiz_jpg/ciab8jTiab9J7oou7m3TsR2NhOrHnNFqibIGW2VzT7Pqf5VIibN3QWj44htzkrvOfnTcJlzicg2Y3Hq220XSVEa3ibjg/640?wx_fmt=jpeg)<br>
 
