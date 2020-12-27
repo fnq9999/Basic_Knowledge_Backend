@@ -1,7 +1,4 @@
 
-
-
-
 ### listenfd
 - 最好使用LT，因为ET会使得在高并发的情况下有的客户端连接不上，非要ET那么一定whlie ET
 ### connfd
