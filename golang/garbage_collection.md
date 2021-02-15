@@ -116,6 +116,7 @@ GC过程中新分配的内存会被立即标记，用的并不是写屏障技术
 ## 5.2 定期触发GC
 默认情况下，最长2分钟触发一次GC，这个间隔在`src/runtime/proc.go:forcegcperiod`变量中被声明：
 ```go
+package main
 // forcegcperiod is the maximum time in nanoseconds between garbage
 // collections. If we go this long without a garbage collection, one
 // is forced to run.
