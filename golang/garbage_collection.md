@@ -1,5 +1,5 @@
 这是原版[ damaainan /
-golang-collections ](https://github.com/damaainan/golang-collections/blob/cce3d205a1f9eedcb25fccc281478ccc5e324c15/GoExpertProgramming/chapter04/4.2-garbage_collection.md)
+golang-collections ](https://github.com/damaainan/golang-collections/blob   /cce3d205a1f9eedcb25fccc281478ccc5e324c15/GoExpertProgramming/chapter04/4.2-garbage_collection.md)
 
 # 1. 前言
 所谓垃圾就是不再需要的内存块，这些垃圾如果不清理就没办法再次被分配使用，在不支持垃圾回收的编程语言里，这些垃圾内存就是泄露的内存。
