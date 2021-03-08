@@ -11,7 +11,14 @@ new和malloc 区别
     - new 返回是对象类型的地址类型严格与对象匹配，无须进行类型转换，
     - 而malloc内存分配成功则是返回void* ，需要通过强制类型转换将void*指针转换成我们需要的类型
 - 4.分配失败
-    - new内存分配失败时，会抛出bac_alloc异常。
+    - new内存分配失败时，会抛出bad_alloc异常。
+        - bad_alloc原因 参考:[malloc最多能分配多少内存](http://fallincode.com/blog/2020/01/malloc%E6%9C%80%E5%A4%9A%E8%83%BD%E5%88%86%E9%85%8D%E5%A4%9A%E5%B0%91%E5%86%85%E5%AD%98/ )
+            - 无法分出连续那么大的内存
+            - “/proc/sys/vm/overcommit_memory”
+                - 0: heuristic overcommit (this is the default)  
+                - 1: always overcommit, never check  
+                - 2: always check, never overcommit
+            - 在 x86_64系统当中，分配不超过1<<47大内存，因为48位物理内存地址，48~63位必须和47位保持一致  
     - malloc分配内存失败时返回NULL。
 - 5.过程区别
     - new会先调用operator new函数，申请足够的内存（通常底层使用malloc实现）。然后调用类型的构造函数，初始化成员变量，最后返回自定义类型指针。delete先调用析构函数，然后调用operator delete函数释放内存（通常底层使用free实现）。
