@@ -65,10 +65,14 @@
         
     - EPOLLEXCLUSIVE是在2016年Linux 4.5内核新添加的一个 epoll 的标识，Ngnix 在 1.11.3 之后添加了NGX_EXCLUSIVE_EVENT选项对该特性进行支持。EPOLLEXCLUSIVE标识会保证一个事件发生时候只有一个线程会被唤醒，以避免多侦听下的惊群问题。
     
-![](https://mmbiz.qpic.cn/mmbiz_jpg/ciab8jTiab9J7oou7m3TsR2NhOrHnNFqibIGW2VzT7Pqf5VIibN3QWj44htzkrvOfnTcJlzicg2Y3Hq220XSVEa3ibjg/640?wx_fmt=jpeg)<br>
+![](https://mmbiz.qpic.cn/mmbiz_jpg/ciab8jTiab9J7oou7m3TsR2NhOrHnNFqibIGW2VzT7Pqf5VIibN3QWj44htzkrvOfnTcJlzicg2Y3Hq220XSVEa3ibjg/640?wx_fmt=jpeg)
 
-[epoll内核源码详解+自己总结的流程 ](https://www.nowcoder.com/discuss/26226)<br>
-[Epoll 如何工作的?](https://www.ershicimi.com/p/6754e4da3554da74821f8fd4a3a5bbb9)<br>
-[epoll 的本质是什么？](https://my.oschina.net/editorial-story/blog/3052308)<br>
+[epoll内核源码详解+自己总结的流程 ](https://www.nowcoder.com/discuss/26226)
+<br>
+[Epoll 如何工作的?](https://www.ershicimi.com/p/6754e4da3554da74821f8fd4a3a5bbb9)
+<br>
+[epoll 的本质是什么？](https://my.oschina.net/editorial-story/blog/3052308)
+<br>
 [源码解读epoll内核机制](http://gityuan.com/2019/01/06/linux-epoll/)
+<br>
 [从linux源码看epoll_图多](https://my.oschina.net/alchemystar/blog/3008840)
