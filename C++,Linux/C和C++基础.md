@@ -392,8 +392,18 @@ int main(){
     - 系统内存泄露
     
     
-### C语言中的volatile
+### C语言中的volatile [volatile](https://en.wikipedia.org/wiki/Volatile_(computer_programming))
 &emsp;A volatile specifier is a hint to a compiler that an object may change its value in ways not specified by the language so that aggressive optimizations must be avoided.<br>
+- 背景: 应用于仿真编译器和CPU过度优化，导致无法读到内存处的值得一种标识符，
+需要读到内存处的值得例子就比如
+    - allow access to memory mapped devices
+    - allow uses of variables between setjmp and longjmp
+    - allow uses of sig_atomic_t variables in signal handlers.
+但是他不能阻止CPU改变指令执行顺序，
+  - 一个能反映该问题的经典例子是一个单例模式实现
+    - ![](.C和C++基础_images/ea9a8902.png)
+        - barrier可以阻止之前的指令交换到之后
+  
 - volatile 关键字是一种类型修饰符，用它声明的类型变量表示可以被某些编译器未知的因素更改，比如：操作系统、硬件或者其它线程等。遇到这个关键字声明的变量，编译器对访问该变量的代码就不再进行优化，从而可以提供对特殊地址的稳定访问。声明时语法：int volatile vInt; 当要求使用 volatile 声明的变量的值的时候，系统总是重新从它所在的内存读取数据，即使它前面的指令刚刚从该处读取过数据。而且读取的数据立刻被保存
 参考：[C/C++ 中 volatile 关键字详解](https://www.runoob.com/w3cnote/c-volatile-keyword.html)
 - volatile对象只能调用volatile成员函数类似于const修饰符

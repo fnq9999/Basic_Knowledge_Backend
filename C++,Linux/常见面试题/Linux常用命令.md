@@ -9,3 +9,8 @@
 ### 日志
 - 实时查看日志
     - tail -f xxx.log
+  
+
+### 其他
+- top
+- netstat
