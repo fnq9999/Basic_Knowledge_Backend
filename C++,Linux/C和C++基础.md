@@ -407,8 +407,10 @@ int main(){
 - volatile 关键字是一种类型修饰符，用它声明的类型变量表示可以被某些编译器未知的因素更改，比如：操作系统、硬件或者其它线程等。遇到这个关键字声明的变量，编译器对访问该变量的代码就不再进行优化，从而可以提供对特殊地址的稳定访问。声明时语法：int volatile vInt; 当要求使用 volatile 声明的变量的值的时候，系统总是重新从它所在的内存读取数据，即使它前面的指令刚刚从该处读取过数据。而且读取的数据立刻被保存
 参考：[C/C++ 中 volatile 关键字详解](https://www.runoob.com/w3cnote/c-volatile-keyword.html)
 - volatile对象只能调用volatile成员函数类似于const修饰符
-- 实现原理
-    - 多核CPU其中一个核修改cache中的数据，还要改写内存中的数据，这样别的核的cache就会失效，进而他们读到的就是内存中的数据
+- 实现原理 [C/C++ Volatile关键词深度剖析](https://stephan14.github.io/2020/04/14/in-depth-analysis-of-volatile-keywords/)
+    - ~~多核CPU其中一个核修改cache中的数据，还要改写内存中的数据，这样别的核的cache就会失效，进而他们读到的就是内存中的数据~~
+    - 防止编译器对变量的优化，避免绕开内存操作数据
+    - 还可以阻止编译器对volatile变量间操作的指令顺序交换，但是CPU怎样执行控制不了
 
 
 
