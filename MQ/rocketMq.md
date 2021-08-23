@@ -7,21 +7,25 @@ RMQ
   - 保存broker的meta信息，为producer和consumer查找broker使用
     提供路由信息,broker会和每一台 name server建立长连接
   - 可横向扩展，节点之间无通信  
-- broker 
+- broker
+  
 - producer : 生产消息 发送到 broker
+  
 - consumer
     - 拉去型消费者：主动消费类型
     - 推送型消费者:
+  
 - 消息message
     - topic
     - tag
     - queue
-
-
+  
+- 采用拉模式：消费者从broker那里拉取消息
 
 ### 场景
 
 ### 功能
+
 - 延迟消息:不会被立即消费的消息
 - 事务消息
 - 消息回溯:消费某个topic在某个时间段下的历史消息
