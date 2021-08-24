@@ -1,6 +1,31 @@
 Docker
 ========
 
+
+### NameSpace
+- Linux内核用来隔离内核资源的方式，通过namespace进程只能看到
+和自己相关的资源，另一个names， pace也只能看自己相关的，两拨进程感知不到对方，
+  该技术是一种全局资源的一种封装隔离
+
+Linux提供了如下几种Namespace
+
+       Namespace   变量               隔离资源
+       Cgroup      CLONE_NEWCGROUP   Cgroup 根目录
+       IPC         CLONE_NEWIPC      System V IPC, POSIX 消息队列等
+       Network     CLONE_NEWNET      网络设备，协议栈、端口等
+       Mount       CLONE_NEWNS       挂载点
+       PID         CLONE_NEWPID      进程ID
+       User        CLONE_NEWUSER     用户和group ID
+       UTS         CLONE_NEWUTS      Hostname和NIS域名
+    链接：https://www.zhihu.com/question/24964878/answer/139508652
+    来源：知乎
+Namespace API提供了三种系统调用接口：
+
+- clone()：创建新的进程
+- setns()：允许指定进程加入特定的namespace
+- unshare()：将指定进程移除指定的namespace
+
+
 ## Docker容器网络
 
 #### 网络模式

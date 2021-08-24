@@ -6,6 +6,6 @@
     - ![](.IO优化_images/bf79cebd.png)
     - Linux 2.4之后的 sendfile函数
   
-- 背景
+- 背景 
 
 
