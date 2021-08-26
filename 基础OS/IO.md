@@ -20,10 +20,10 @@ epoll_wait采用回调的方式。内核检测到就绪的文件描述符时，�
 
 ## 应用场景<br>
 
-1. select应用场景 select的timeout参数精确到1us，而poll和epoll为1ms，因此select更加实用与实时性要求更高的场景；<br>
-
+1. select应用场景 select的timeout参数精确到1us，而poll和epoll为1ms，因此select更加实用与实时性要求更高的场景；
+   <br>
 select可移植性更好，几乎被所有主流平台所支持；<br>
-
+    - 支持1us的原因是使用了更高精度的定时器
 2. poll应用场景 poll没有最大描述符数量的限制，如果平台支持并且实时度要求不高的话，应该使用poll而不是select。<br>
 
 3. epoll应用场景 只需要运行在Linux平台上，有大量的描述符需要同时轮询，并且这些连接最好是长连接。<br>

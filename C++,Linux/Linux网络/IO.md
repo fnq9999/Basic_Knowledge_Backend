@@ -7,8 +7,11 @@ IO
 <img src="https://user-gold-cdn.xitu.io/2020/6/26/172ef17fc508d691?imageView2/0/w/1280/h/960/ignore-error/1" width="50%">
 
 - 过程
-    - 使用阻塞IO的系统调用，如果如法立即完成就会被OS挂起
-    - 当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户内存，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。
+    - 细节
+      
+    - 总结
+        - 使用阻塞IO的系统调用，如果如法立即完成就会被OS挂起
+        - 当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户内存，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。
 - 优点
     - 编程简单
     - 进程或线程在挂起的过程当中不消耗CPU

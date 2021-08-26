@@ -13,5 +13,18 @@ socket
 
 
 
+### 连接队列和半连接队列
+- ![](.socket_images/fc23805c.png)
+  - 参考[TCP 半连接队列和全连接队列满了会发生什么？又该如何应对？](https://www.cnblogs.com/xiaolincoding/p/12995358.html)
+  - 不管是连接队列还是半连接队列，都有最大长度限制，超过限制时，
+    内核会直接丢弃，或返回 RST 包。
+
+
+
+
+
+
+
+
 
 
