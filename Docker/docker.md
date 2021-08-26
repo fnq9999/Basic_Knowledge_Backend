@@ -4,8 +4,8 @@ Docker
 
 ### NameSpace
 - Linux内核用来隔离内核资源的方式，通过namespace进程只能看到
-和自己相关的资源，另一个names， pace也只能看自己相关的，两拨进程感知不到对方，
-  该技术是一种全局资源的一种封装隔离
+和自己相关的资源， 该技术是一种全局资源的一种封装隔离
+  - 拥有自己独立的主机名、进程ID系统、IPC、网络、文件系统、用户等等资源
 
 Linux提供了如下几种Namespace
 
@@ -43,3 +43,10 @@ Namespace API提供了三种系统调用接口：
     - 牺牲隔离性带来了容器间互访简约网络配置以及高效的传输效率，增容器之间的网络黏性
 - none
     - 没有网络资源，只有loopback网络接口
+
+### 总结
+- 参考[美团容器平台架构及容器技术实践](https://tech.meituan.com/2018/11/15/docker-architecture-and-evolution-practice.html)
+- ![](.docker_images/53bbbe08.png)
+  - namespace+cgroup
+    - namespace:同一个namespace中的进程能够互相通信，但看不见其他namespace中的进程
+    - cgroups:此外，为了限制namespace对物理资源的使用，对进程能使用的CPU、内存等资源需要做一定的限制。这就是Cgroup技术，Cgroup是Control group的意思。比如我们常说的4c4g的容器，实际上是限制这个容器namespace中所用的进程，最多能够使用4核的计算资源和4GB的内存
