@@ -17,7 +17,8 @@ ptmalloc
     - 在主分配区，就sbrk()增大topchunk
     - 非主分配区，使用mmap分配一个sub-heap，增大top chunk大小
 - 大于等于mmap分配阈值，则直接mmap
-### 
+### heap的收缩
+- free之后，当高地址空闲空间超过一定界限之后，heap会收缩。
 
 
 
