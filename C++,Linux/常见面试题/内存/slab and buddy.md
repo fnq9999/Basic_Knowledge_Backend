@@ -1,5 +1,6 @@
 ### buddy算法
-参考：[面试官：你谈谈对物理内存和虚拟内存的理解，一文彻底搞懂](https://segmentfault.com/a/1190000022506020)<br>
+参考：[面试官：你谈谈对物理内存和虚拟内存的理解，一文彻底搞懂](https://segmentfault.com/a/1190000022506020)
+<br>
 [也谈谈这四年来对内核的研究_chinaunis_老贴](http://bbs.chinaunix.net/thread-3559586-16-1.html)
 收藏:[slab机制总结篇_csdn](https://blog.csdn.net/FreeeLinux/article/details/54575580)
 - 用来解决外部碎片问题    
