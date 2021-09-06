@@ -8,6 +8,7 @@ Count函数
 - InnoDB为什么不想MyiSAM一样将行数存起来，因为在不同的事务中得到的数量不同
 所以，InnoDB决定每次都读一遍
   
+
 ### count慢的解决办法
 - 多开一张表，用来存储行数。利用InnoDB事务特性，只能看见提交之后的，
 - ![](.count函数_images/302528dc.png)

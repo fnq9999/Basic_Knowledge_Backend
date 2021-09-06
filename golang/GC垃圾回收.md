@@ -24,3 +24,11 @@
 
 ### 缺点<br>
 缺点也很明显，需要 STW<br>
+
+
+Golang GC
+=======
+
+### 阶段
+- 参考[7.2 垃圾收集器](https://draveness.me/golang/docs/part3-runtime/ch07-memory/golang-garbage-collector/#723-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86)
+![](.GC垃圾回收_images/65f04d69.png)
