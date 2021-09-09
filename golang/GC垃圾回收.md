@@ -32,3 +32,16 @@ Golang GC
 ### 阶段
 - 参考[7.2 垃圾收集器](https://draveness.me/golang/docs/part3-runtime/ch07-memory/golang-garbage-collector/#723-%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86)
 ![](.GC垃圾回收_images/65f04d69.png)
+  
+### 内存泄漏
+
+- 原因
+  - zombie goroutine，这个goroutine上分配的内存对象将一直被这个僵尸goroutine引用着，
+    进而导致gc无法回收这类对象，内存泄漏。
+  - 全局数据结构挂住了本该释放的对象。虽然goroutine已经退出了，
+    但是这些对象并没有从这类数据结构中删除，导致对象一直被引用，无法被回收。
+
+
+
+
+

@@ -43,7 +43,7 @@ type hchan struct {
         - 如果非阻塞接受
             - return flase
         - 如果阻塞接受
-            - 阻塞等待
+            - 阻塞等待，放入waitq
 - 关闭
     - 对一个nil的channel close 会panic
     - 对一个已经close 的 channel close 也会 panic
